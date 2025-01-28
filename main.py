@@ -1,4 +1,13 @@
 class Natural:
+    @classmethod
+    def __check_value(self, value):
+        if type(value) not in (int, float):
+            raise ValueError("Value type must be int or float")
+        elif value < 0:
+            raise ValueError("Value must be greater than zero")
+        else:
+            return value
+    
     def __set_name__(self, owner, name):
         self.name = "__" + name
         
@@ -6,10 +15,7 @@ class Natural:
         return getattr(instance, self.name)
     
     def __set__(self, instance, value):
-        if value > 0:
-            return setattr(instance, self.name, value)
-        else:
-            raise ValueError("X must be greater than zero")
+        return setattr(instance, self.name, self.__check_value(value))
 
 class Point:
     x = Natural()
@@ -20,3 +26,5 @@ class Point:
         self.y = y
     
 point_one = Point(4, 3)
+print(point_one.x)
+point_one.x = 1
