@@ -3,11 +3,11 @@ class Natural:
         self.name = "__" + name
         
     def __get__(self, instance, owner):
-        return instance.__dict__[self.name]
+        return getattr(instance, self.name)
     
     def __set__(self, instance, value):
         if value > 0:
-            instance.__dict__[self.name] = value
+            return setattr(instance, self.name, value)
         else:
             raise ValueError("X must be greater than zero")
 
